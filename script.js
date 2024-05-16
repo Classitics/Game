@@ -5,8 +5,25 @@ var Eoption = 0;
 var Uhp = 69;
 var Ehp = 20;
 
+class HealthBar {
+  constructor(hp, x, y, w, h) {
+    this.hp = hp;
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+  }
+  draw() {
+    fill(255);
+    rect(this.x, this.y, this.w, this.h);
+    textAlign(CENTER);
+    fill('black');
+    text(this.hp, this.x/2, this.y/2, this.w/2, this.h/2);
+  }
+}
 
-
+var UHb = new HealthBar(Uhp, 120, 225, 20, 20);
+var EHb = new HealthBar(Ehp, 420, 225, 20, 20);
 
 
 class MenuUi {
@@ -60,6 +77,7 @@ class Items {
   }
 }
 
+
 var Attacker = [];
 var Healer = [];
 
@@ -89,6 +107,9 @@ function draw() {
         Gunbutton.draw();
         if (Selection == "SWORD") {
           Ehp = Ehp - Attacker[0].damage;
+          
+
+          
           Uoption = "";
           Selection = "";
           turn++;
