@@ -5,6 +5,10 @@ var Eoption = 0;
 var Uhp = 69;
 var Ehp = 20;
 
+var testanim;
+
+
+
 class HealthBar {
   constructor(hp, x, y, w, h) {
     this.hp = hp;
@@ -18,7 +22,7 @@ class HealthBar {
     rect(this.x, this.y, this.w, this.h);
     textAlign(CENTER);
     fill('black');
-    text(this.hp, this.x/2, this.y/2, this.w/2, this.h/2);
+    text(this.hp, this.x / 2, this.y / 2, this.w / 2, this.h / 2);
   }
 }
 
@@ -83,6 +87,13 @@ var Healer = [];
 
 function setup() {
   createCanvas(600, 400);
+  testanim = loadAnimation(
+    'assets/main-think01.PNG',
+    'assets/main-think02.PNG',
+
+
+  );
+  testanim.frameDelay = 10;
 
   Attacker.push(new Attackers("Sword", 2, -1));
   Attacker.push(new Attackers("Gun", 5, 3));
@@ -92,6 +103,8 @@ function setup() {
 }
 
 function draw() {
+  UHb.draw();
+  EHb.draw();
   background(150);
   if (Uhp > 0 && Ehp > 0) {
     if (turn % 2 == 0) {
@@ -107,9 +120,9 @@ function draw() {
         Gunbutton.draw();
         if (Selection == "SWORD") {
           Ehp = Ehp - Attacker[0].damage;
-          
 
-          
+
+
           Uoption = "";
           Selection = "";
           turn++;
@@ -197,8 +210,12 @@ function draw() {
 
   fill("white");
 
+  animation(testanim, 100, 225, 0, 0.5, 0.5);
+
   rect(100, 200, 80, 120);
   rect(400, 200, 80, 120);
+
+
 
 
 }
