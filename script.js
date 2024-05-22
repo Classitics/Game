@@ -4,10 +4,13 @@ var Selection = "";
 var Eoption = 0;
 var Uhp = 69;
 var Ehp = 20;
+var UposX = 100;
+var WayMove = true;
+
+
+
 
 var testanim;
-
-
 
 class HealthBar {
   constructor(hp, x, y, w, h) {
@@ -17,17 +20,19 @@ class HealthBar {
     this.w = w;
     this.h = h;
   }
-  draw() {
+
+  draw(hp) {
+    this.hp = hp;
     fill(255);
     rect(this.x, this.y, this.w, this.h);
     textAlign(CENTER);
     fill('black');
-    text(this.hp, this.x / 2, this.y / 2, this.w / 2, this.h / 2);
+    text(this.hp, this.x + this.w / 2, this.y + this.h / 2,);
   }
 }
 
-var UHb = new HealthBar(Uhp, 120, 225, 20, 20);
-var EHb = new HealthBar(Ehp, 420, 225, 20, 20);
+var UHealthbar = new HealthBar(Uhp, 80, 160, 20, 20);
+var EHealthbar = new HealthBar(Ehp, 420, 160, 20, 20);
 
 
 class MenuUi {
@@ -81,6 +86,29 @@ class Items {
   }
 }
 
+function AttackSword() {
+  UposX = 100;
+  while (UposX <= 380) {
+    animation(testanim, UposX, 300, 0, 0.5, 0.5);
+    UposX += 20;
+
+  }
+  Ehp = Ehp - Attacker[0].damage;
+
+  while (UposX >= 100) {
+    animation(testanim, UposX, 300, 0, 0.5, 0.5);
+    UposX -= 20;
+
+  }
+
+  sleep(2000)
+  UposX = 100;
+}
+
+
+
+
+
 
 var Attacker = [];
 var Healer = [];
@@ -90,10 +118,8 @@ function setup() {
   testanim = loadAnimation(
     'assets/main-think01.PNG',
     'assets/main-think02.PNG',
-
-
   );
-  testanim.frameDelay = 10;
+  testanim.frameDelay = 20;
 
   Attacker.push(new Attackers("Sword", 2, -1));
   Attacker.push(new Attackers("Gun", 5, 3));
@@ -103,9 +129,9 @@ function setup() {
 }
 
 function draw() {
-  UHb.draw();
-  EHb.draw();
   background(150);
+  UHealthbar.draw(Uhp);
+  EHealthbar.draw(Ehp);
   if (Uhp > 0 && Ehp > 0) {
     if (turn % 2 == 0) {
       print("наш хід")
@@ -119,9 +145,40 @@ function draw() {
         Swordbutton.draw();
         Gunbutton.draw();
         if (Selection == "SWORD") {
-          Ehp = Ehp - Attacker[0].damage;
 
+          // while(UposX <= 380) {
+          //   animation(testanim, UposX, 300, 0, 0.5, 0.5);
+          //   UposX += 10;
+          // }
+          // Ehp = Ehp - Attacker[0].damage;
+          // while(UposX >= 100) {
+          //   animation(testanim, UposX, 300, 0, 0.5, 0.5);
+          //   UposX -= 10;
+          // }
 
+          // if (UposX <= 380){
+          //   animation(testanim, UposX, 300, 0, 0.5, 0.5);
+          //   UposX += 10;
+          // } else {
+          //   Ehp = Ehp - Attacker[0].damage;
+          //   animation(testanim, UposX, 300, 0, 0.5, 0.5);
+          //   UposX -= 10;
+          // }
+
+          // AttackSword();
+
+          if (UposX <= 380 && WayMove == true) {
+            UposX += 20;
+            animation(testanim, UposX, 300, 0, 0.5, 0.5);
+            return;
+          } 
+          WayMove = false;
+
+          if (UposX > 80 && WayMove == false) {
+            animation(testanim, UposX, 300, 0, 0.5, 0.5);
+            Uposx -= 20;
+            return;
+          }
 
           Uoption = "";
           Selection = "";
@@ -210,11 +267,10 @@ function draw() {
 
   fill("white");
 
-  animation(testanim, 100, 225, 0, 0.5, 0.5);
+  animation(testanim, UposX, 300, 0, 0.5, 0.5);
 
-  rect(100, 200, 80, 120);
-  rect(400, 200, 80, 120);
-
+  // rect(100, 200, 80, 120);
+  rect(400, 300, 80, 120);
 
 
 
@@ -244,6 +300,7 @@ function mouseClicked() {
 
 
 }
+
 
 
 
